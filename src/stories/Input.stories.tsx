@@ -5,7 +5,7 @@ import { Story, Meta } from "@storybook/react/types-6-0";
 import { Input, InputProps } from "../components/Input";
 
 export default {
-  title: "Example/Input",
+  title: "UI DOC/Input",
   component: Input,
 } as Meta;
 
