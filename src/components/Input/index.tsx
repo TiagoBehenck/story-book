@@ -1,17 +1,60 @@
-import React, { InputHTMLAttributes } from "react";
+// @ts-nocheck
+import React, { useRef, useEffect } from "react";
 
-import { Wrapper, Label, InputContent } from "./style";
+import { useField } from "@rocketseat/unform";
+import * as MaterialDesign from "react-icons/md";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  type?: string;
+import { Label } from "./styles";
+
+export interface InputProps {
+  label?: string;
+  name?: string;
+  icon?: string;
+  size?: number;
+  iconStyle?: any;
+  children?: React.ReactNode;
 }
 
-export const Input: React.FC<InputProps> = ({ label, type = "text" }) => {
+export const Input: React.FC<InputProps> = ({
+  label,
+  name,
+  icon,
+  size,
+  iconStyle,
+  children,
+  ...rest
+}) => {
+  const ref = useRef(null);
+  const { fieldName, registerField, defaultValue, error } = useField(name);
+
+  const renderLabel = label || name;
+
+  const Icon = MaterialDesign[icon];
+
+  useEffect(() => {
+    if (!ref.current) return;
+    registerField({
+      name: fieldName,
+      ref: ref.current,
+      path: "value",
+    });
+  }, [ref.current, fieldName]); //eslint-disable-line
+
   return (
-    <Wrapper>
-      <Label>{label}</Label>
-      <InputContent type={type} />
-    </Wrapper>
+    <Label htmlFor={fieldName} icon={icon}>
+      {error && <span>{error}</span>}
+
+      <input
+        name={fieldName}
+        ref={ref}
+        id={fieldName}
+        aria-label={fieldName}
+        defaultValue={defaultValue}
+        {...rest}
+      />
+      <span>{renderLabel}</span>
+      {icon && <Icon size={size} style={iconStyle} />}
+      {children}
+    </Label>
   );
 };

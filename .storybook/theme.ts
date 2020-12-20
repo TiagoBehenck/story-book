@@ -24,5 +24,5 @@ export default create({
   barBg: "#1b1a1f",
 
   brandTitle: "UI Story Book",
-  brandUrl: "https://example.com",
+  brandUrl: "https://www.linkedin.com/in/tiago-behenck-dos-santos/",
 });
